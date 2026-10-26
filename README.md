@@ -1,1 +1,1 @@
-# Deep-Blue-Journey
+A cinematic underwater ocean animation built with HTML, CSS, and JavaScript, featuring animated sea creatures, colorful tropical fish, rising bubbles, glowing coral reefs, underwater lighting, and interactive parallax effects.
