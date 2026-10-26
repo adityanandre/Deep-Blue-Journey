@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Underwater Ocean Tunnel</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #001b2e;
+    font-family: Arial, sans-serif;
+}
+
+#ocean {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at 50% 0%,
+        rgba(99, 226, 255, .55) 0%,
+        rgba(14, 142, 190, .35) 20%,
+        rgba(0, 72, 111, .7) 55%,
+        #001525 100%);
+}
+
+/* -------------------------------------------------
+   SUNLIGHT
+------------------------------------------------- */
+
+.sun {
+    position: absolute;
+    top: -180px;
+    left: 50%;
+    width: 420px;
+    height: 420px;
+    transform: translateX(-50%);
+    background: radial-gradient(circle,
+        rgba(255,255,220,.9) 0%,
+        rgba(157,240,255,.35) 25%,
+        transparent 70%);
+    filter: blur(5px);
+    opacity: .7;
+}
+
+.caustics {
+    position: absolute;
+    inset: 0;
+    opacity: .35;
+    background:
+        repeating-linear-gradient(
+            105deg,
+            transparent 0 40px,
+            rgba(190,250,255,.16) 42px 46px,
+            transparent 48px 80px
+        );
+    mix-blend-mode: screen;
+    animation: waterLight 7s linear infinite;
+}
+
+@keyframes waterLight {
+    from {
+        transform: translateX(-80px) skewX(-5deg);
+    }
+    to {
+        transform: translateX(100px) skewX(5deg);
+    }
+}
+
+/* -------------------------------------------------
+   TUNNEL
+------------------------------------------------- */
+
+.tunnel {
+    position: absolute;
+    left: 5%;
+    right: 5%;
+    top: 10%;
+    bottom: 7%;
+    border-radius: 50%;
+    border: 2px solid rgba(164, 240, 255, .35);
+    box-shadow:
+        inset 0 0 100px rgba(0, 225, 255, .15),
+        0 0 60px rgba(0, 180, 255, .12);
+}
+
+.tunnel::before {
+    content: "";
+    position: absolute;
+    inset: 7%;
+    border-radius: 50%;
+    border: 1px solid rgba(190,250,255,.18);
+}
+
+.tunnel::after {
+    content: "";
+    position: absolute;
+    inset: 15%;
+    border-radius: 50%;
+    border: 1px solid rgba(190,250,255,.10);
+}
+
+/* -------------------------------------------------
+   FLOOR
+------------------------------------------------- */
+
+.floor {
+    position: absolute;
+    bottom: -5%;
+    left: -10%;
+    width: 120%;
+    height: 30%;
+    background:
+        radial-gradient(ellipse at center,
+        rgba(19,117,77,.9),
+        rgba(3,48,50,.85) 55%,
+        transparent 72%);
+    transform: perspective(400px) rotateX(50deg);
+}
+
+/* -------------------------------------------------
+   SEA CREATURES
+------------------------------------------------- */
+
+.creature {
+    position: absolute;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.whale {
+    width: 330px;
+    height: 125px;
+    left: -380px;
+    top: 22%;
+    animation: whaleSwim 24s linear infinite;
+}
+
+.whale-body {
+    position: absolute;
+    width: 250px;
+    height: 95px;
+    border-radius: 60% 50% 45% 50%;
+    background: linear-gradient(
+        to bottom,
+        #253e52,
+        #0a2639 60%,
+        #071b29
+    );
+    box-shadow: 0 12px 25px rgba(0,0,0,.3);
+}
+
+.whale-body::before {
+    content: "";
+    position: absolute;
+    left: 15px;
+    top: 8px;
+    width: 210px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(150,190,200,.13);
+}
+
+.whale-tail {
+    position: absolute;
+    right: 5px;
+    top: 35px;
+    width: 65px;
+    height: 50px;
+}
+
+.whale-tail::before,
+.whale-tail::after {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 30px;
+    background: #0b2638;
+    border-radius: 90% 10% 90% 10%;
+}
+
+.whale-tail::before {
+    transform: rotate(28deg);
+}
+
+.whale-tail::after {
+    transform: rotate(-28deg);
+}
+
+.whale-fin {
+    position: absolute;
+    width: 90px;
+    height: 24px;
+    background: #0a2334;
+    border-radius: 90%;
+    left: 95px;
+    bottom: -8px;
+    transform: rotate(25deg);
+}
+
+.whale-eye {
+    position: absolute;
+    left: 35px;
+    top: 30px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 0 8px white;
+}
+
+@keyframes whaleSwim {
+    0% {
+        transform: translateX(-10vw) translateY(0) scale(.75);
+    }
+    25% {
+        transform: translateX(30vw) translateY(-30px) scale(.9);
+    }
+    50% {
+        transform: translateX(65vw) translateY(25px) scale(1);
+    }
+    75% {
+        transform: translateX(105vw) translateY(-20px) scale(.85);
+    }
+    100% {
+        transform: translateX(130vw) translateY(10px) scale(.7);
+    }
+}
+
+/* -------------------------------------------------
+   MANTA RAY
+------------------------------------------------- */
+
+.manta {
+    width: 240px;
+    height: 120px;
+    top: 37%;
+    left: -280px;
+    animation: mantaSwim 18s linear infinite;
+}
+
+.manta-body {
+    position: absolute;
+    left: 65px;
+    top: 30px;
+    width: 110px;
+    height: 65px;
+    background: #111e2b;
+    border-radius: 50%;
+}
+
+.manta-wing {
+    position: absolute;
+    top: 18px;
+    width: 130px;
+    height: 80px;
+    background: #122636;
+}
+
+.manta-wing.left {
+    left: 0;
+    clip-path: polygon(100% 50%, 0 0, 25% 75%);
+}
+
+.manta-wing.right {
+    right: 0;
+    clip-path: polygon(0 50%, 100% 0, 75% 75%);
+}
+
+.manta-tail {
+    position: absolute;
+    width: 90px;
+    height: 5px;
+    background: #172d3d;
+    left: 145px;
+    top: 60px;
+    transform: rotate(5deg);
+}
+
+@keyframes mantaSwim {
+    0% {
+        transform: translateX(-20vw) translateY(0) scale(.6);
+    }
+    50% {
+        transform: translateX(65vw) translateY(-60px) scale(1);
+    }
+    100% {
+        transform: translateX(125vw) translateY(20px) scale(.65);
+    }
+}
+
+/* -------------------------------------------------
+   DOLPHINS
+------------------------------------------------- */
+
+.dolphin {
+    width: 130px;
+    height: 70px;
+    left: -150px;
+    top: 28%;
+    animation: dolphinSwim 12s linear infinite;
+}
+
+.dolphin-body {
+    position: absolute;
+    width: 100px;
+    height: 38px;
+    background: linear-gradient(#6e8d9c,#29495b);
+    border-radius: 70% 50% 60% 45%;
+    transform: rotate(-10deg);
+}
+
+.dolphin-body::after {
+    content: "";
+    position: absolute;
+    right: -25px;
+    top: 4px;
+    border-left: 35px solid #29495b;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+}
+
+.dolphin-fin {
+    position: absolute;
+    left: 45px;
+    top: 28px;
+    width: 40px;
+    height: 18px;
+    background: #29495b;
+    transform: rotate(35deg);
+    border-radius: 100%;
+}
+
+@keyframes dolphinSwim {
+    0% {
+        transform: translateX(-10vw) translateY(0) rotate(5deg);
+    }
+    50% {
+        transform: translateX(60vw) translateY(-80px) rotate(-5deg);
+    }
+    100% {
+        transform: translateX(120vw) translateY(30px) rotate(8deg);
+    }
+}
+
+/* -------------------------------------------------
+   TURTLE
+------------------------------------------------- */
+
+.turtle {
+    width: 150px;
+    height: 110px;
+    left: -180px;
+    top: 55%;
+    animation: turtleSwim 26s linear infinite;
+}
+
+.shell {
+    position: absolute;
+    left: 40px;
+    top: 30px;
+    width: 80px;
+    height: 60px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 50% 50%,
+        #4b865d,
+        #1d5545 65%,
+        #123d38);
+    border: 3px solid #0b302f;
+}
+
+.turtle-head {
+    position: absolute;
+    left: 0;
+    top: 48px;
+    width: 40px;
+    height: 30px;
+    border-radius: 50%;
+    background: #3e8961;
+}
+
+.flipper {
+    position: absolute;
+    width: 65px;
+    height: 25px;
+    background: #347454;
+    border-radius: 80%;
+}
+
+.flipper.one {
+    left: 20px;
+    top: 15px;
+    transform: rotate(-35deg);
+}
+
+.flipper.two {
+    left: 25px;
+    top: 80px;
+    transform: rotate(35deg);
+}
+
+.flipper.three {
+    right: 10px;
+    top: 15px;
+    transform: rotate(35deg);
+}
+
+.flipper.four {
+    right: 10px;
+    top: 80px;
+    transform: rotate(-35deg);
+}
+
+@keyframes turtleSwim {
+    0% {
+        transform: translateX(-15vw) translateY(0) rotate(2deg);
+    }
+    50% {
+        transform: translateX(60vw) translateY(80px) rotate(-4deg);
+    }
+    100% {
+        transform: translateX(120vw) translateY(-20px) rotate(4deg);
+    }
+}
+
+/* -------------------------------------------------
+   FISH
+------------------------------------------------- */
+
+.fish {
+    position: absolute;
+    width: 35px;
+    height: 18px;
+    border-radius: 60% 40% 40% 60%;
+    z-index: 7;
+    animation: fishSwim linear infinite;
+}
+
+.fish::after {
+    content: "";
+    position: absolute;
+    right: -13px;
+    top: 1px;
+    border-right: 15px solid currentColor;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+}
+
+.fish.yellow {
+    background: #ffe14a;
+    color: #ffe14a;
+}
+
+.fish.orange {
+    background: #ff7b35;
+    color: #ff7b35;
+}
+
+.fish.blue {
+    background: #51d7ff;
+    color: #51d7ff;
+}
+
+.fish.pink {
+    background: #ff77c8;
+    color: #ff77c8;
+}
+
+@keyframes fishSwim {
+    from {
+        transform: translateX(-100px);
+    }
+    to {
+        transform: translateX(110vw);
+    }
+}
+
+/* -------------------------------------------------
+   CORAL
+------------------------------------------------- */
+
+.coral {
+    position: absolute;
+    bottom: 6%;
+    width: 110px;
+    height: 160px;
+    z-index: 4;
+}
+
+.branch {
+    position: absolute;
+    bottom: 0;
+    width: 18px;
+    border-radius: 50px;
+    transform-origin: bottom;
+}
+
+.branch:nth-child(1) {
+    left: 15px;
+    height: 120px;
+    transform: rotate(-20deg);
+}
+
+.branch:nth-child(2) {
+    left: 45px;
+    height: 150px;
+}
+
+.branch:nth-child(3) {
+    left: 75px;
+    height: 105px;
+    transform: rotate(20deg);
+}
+
+.coral.red .branch {
+    background: linear-gradient(#ff577f,#a82e63);
+    box-shadow: 0 0 14px #ff3670;
+}
+
+.coral.purple .branch {
+    background: linear-gradient(#ce63ff,#6030ad);
+    box-shadow: 0 0 14px #ad4dff;
+}
+
+.coral.cyan .branch {
+    background: linear-gradient(#42f5e9,#138f9e);
+    box-shadow: 0 0 14px #20eaff;
+}
+
+.coral.left {
+    left: 5%;
+}
+
+.coral.right {
+    right: 5%;
+    transform: scale(.8);
+}
+
+/* -------------------------------------------------
+   SEA PLANTS
+------------------------------------------------- */
+
+.seaweed {
+    position: absolute;
+    bottom: 0;
+    width: 150px;
+    height: 160px;
+}
+
+.seaweed span {
+    position: absolute;
+    bottom: 0;
+    width: 14px;
+    height: 150px;
+    background: linear-gradient(to top,#083e37,#27a66e);
+    border-radius: 100% 0;
+    transform-origin: bottom;
+    animation: sway 3s ease-in-out infinite alternate;
+}
+
+.seaweed span:nth-child(1) {
+    left: 20px;
+}
+
+.seaweed span:nth-child(2) {
+    left: 60px;
+    height: 120px;
+    animation-delay: -.8s;
+}
+
+.seaweed span:nth-child(3) {
+    left: 100px;
+    height: 170px;
+    animation-delay: -1.5s;
+}
+
+@keyframes sway {
+    from {
+        transform: rotate(-12deg);
+    }
+    to {
+        transform: rotate(14deg);
+    }
+}
+
+/* -------------------------------------------------
+   BUBBLES
+------------------------------------------------- */
+
+.bubble {
+    position: absolute;
+    bottom: -30px;
+    width: 8px;
+    height: 8px;
+    border: 1px solid rgba(255,255,255,.7);
+    border-radius: 50%;
+    animation: bubbleRise linear infinite;
+    z-index: 8;
+}
+
+@keyframes bubbleRise {
+    to {
+        transform: translateY(-110vh) translateX(40px);
+        opacity: 0;
+    }
+}
+
+/* -------------------------------------------------
+   VIGNETTE
+------------------------------------------------- */
+
+.vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 20;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 35%,
+        rgba(0,10,20,.35) 75%,
+        rgba(0,5,12,.8) 100%
+    );
+}
+
+/* -------------------------------------------------
+   TITLE
+------------------------------------------------- */
+
+.title {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 30;
+    color: rgba(255,255,255,.85);
+    text-align: center;
+    letter-spacing: 7px;
+    text-transform: uppercase;
+    font-size: 14px;
+    text-shadow: 0 0 15px #54eaff;
+    pointer-events: none;
+}
+
+.subtitle {
+    margin-top: 8px;
+    font-size: 8px;
+    letter-spacing: 4px;
+    opacity: .65;
+}
+</style>
+</head>
+
+<body>
+
+<div id="ocean">
+
+    <div class="sun"></div>
+    <div class="caustics"></div> 
+
+    <div class="title">
+        OCEAN DREAM
+        <div class="subtitle">A Cinematic Underwater Journey</div>
+    </div>
+
+    <div class="tunnel"></div>
+
+    <!-- WHALE -->
+    <div class="creature whale">
+        <div class="whale-body"></div>
+        <div class="whale-fin"></div>
+        <div class="whale-tail"></div>
+        <div class="whale-eye"></div>
+    </div>
+
+    <!-- MANTA -->
+    <div class="creature manta">
+        <div class="manta-wing left"></div>
+        <div class="manta-body"></div>
+        <div class="manta-wing right"></div>
+        <div class="manta-tail"></div>
+    </div>
+
+    <!-- DOLPHINS -->
+    <div class="creature dolphin">
+        <div class="dolphin-body"></div>
+        <div class="dolphin-fin"></div>
+    </div>
+
+    <div class="creature dolphin" style="
+        top:18%;
+        animation-delay:-6s;
+        animation-duration:15s;
+        transform:scale(.65);
+    ">
+        <div class="dolphin-body"></div>
+        <div class="dolphin-fin"></div>
+    </div>
+
+    <!-- TURTLE -->
+    <div class="creature turtle">
+        <div class="shell"></div>
+        <div class="turtle-head"></div>
+        <div class="flipper one"></div>
+        <div class="flipper two"></div>
+        <div class="flipper three"></div>
+        <div class="flipper four"></div>
+    </div>
+
+    <!-- CORALS -->
+    <div class="coral red left">
+        <div class="branch"></div>
+        <div class="branch"></div>
+        <div class="branch"></div>
+    </div>
+
+    <div class="coral purple right">
+        <div class="branch"></div>
+        <div class="branch"></div>
+        <div class="branch"></div>
+    </div>
+
+    <div class="coral cyan" style="left:38%; bottom:3%; transform:scale(.55)">
+        <div class="branch"></div>
+        <div class="branch"></div>
+        <div class="branch"></div>
+    </div>
+
+    <!-- SEAWEED -->
+    <div class="seaweed" style="left:18%">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="seaweed" style="right:20%; transform:scale(.8)">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="floor"></div>
+
+    <div id="fishContainer"></div>
+    <div id="bubbleContainer"></div>
+
+    <div class="vignette"></div>
+
+</div>
+
+<script>
+
+/* =====================================================
+   TROPICAL FISH GENERATOR
+===================================================== */
+
+const fishContainer = document.getElementById("fishContainer");
+
+const fishColors = [
+    "yellow",
+    "orange",
+    "blue",
+    "pink"
+];
+
+for (let i = 0; i < 45; i++) {
+
+    const fish = document.createElement("div");
+
+    fish.className =
+        "fish " +
+        fishColors[Math.floor(Math.random() * fishColors.length)];
+
+    fish.style.top =
+        (10 + Math.random() * 68) + "%";
+
+    fish.style.left =
+        (-10 - Math.random() * 100) + "px";
+
+    const scale =
+        0.35 + Math.random() * 0.9;
+
+    fish.style.transform =
+        `scale(${scale})`;
+
+    fish.style.animationDuration =
+        (8 + Math.random() * 15) + "s";
+
+    fish.style.animationDelay =
+        (-Math.random() * 15) + "s";
+
+    fishContainer.appendChild(fish);
+}
+
+
+/* =====================================================
+   BUBBLE GENERATOR
+===================================================== */
+
+const bubbleContainer =
+    document.getElementById("bubbleContainer");
+
+for (let i = 0; i < 55; i++) {
+
+    const bubble =
+        document.createElement("div");
+
+    bubble.className = "bubble";
+
+    bubble.style.left =
+        Math.random() * 100 + "%";
+
+    const size =
+        3 + Math.random() * 14;
+
+    bubble.style.width = size + "px";
+    bubble.style.height = size + "px";
+
+    bubble.style.animationDuration =
+        (6 + Math.random() * 10) + "s";
+
+    bubble.style.animationDelay =
+        (-Math.random() * 15) + "s";
+
+    bubbleContainer.appendChild(bubble);
+}
+
+
+/* =====================================================
+   PARALLAX EFFECT
+===================================================== */
+
+const ocean =
+    document.getElementById("ocean");
+
+document.addEventListener("mousemove", e => {
+
+    const x =
+        (e.clientX / window.innerWidth - .5) * 2;
+
+    const y =
+        (e.clientY / window.innerHeight - .5) * 2;
+
+    ocean.style.transform =
+        `perspective(1200px)
+         rotateY(${x * 1.5}deg)
+         rotateX(${-y * 1.2}deg)
+         scale(1.02)`;
+});
+
+document.addEventListener("mouseleave", () => {
+
+    ocean.style.transform =
+        "perspective(1200px) rotateY(0deg) rotateX(0deg) scale(1)";
+});
+
+
+/* =====================================================
+   RANDOM EXTRA FISH SCHOOLS
+===================================================== */
+
+function createFishSchool() {
+
+    const school =
+        document.createElement("div");
+
+    school.style.position = "absolute";
+    school.style.left = "-200px";
+    school.style.top =
+        (15 + Math.random() * 55) + "%";
+
+    school.style.zIndex = "6";
+
+    for (let i = 0; i < 12; i++) {
+
+        const fish =
+            document.createElement("div");
+
+        fish.className =
+            "fish " +
+            fishColors[
+                Math.floor(
+                    Math.random() *
+                    fishColors.length
+                )
+            ];
+
+        fish.style.position = "absolute";
+
+        fish.style.left =
+            (i * 18) + "px";
+
+        fish.style.top =
+            (Math.random() * 80) + "px";
+
+        fish.style.transform =
+            `scale(${.35 + Math.random() * .45})`;
+
+        school.appendChild(fish);
+    }
+
+    ocean.appendChild(school);
+
+    school.animate(
+        [
+            {
+                transform:
+                    "translateX(-300px)"
+            },
+            {
+                transform:
+                    "translateX(130vw)"
+            }
+        ],
+        {
+            duration:
+                14000 + Math.random() * 9000,
+            iterations: Infinity,
+            delay:
+                -Math.random() * 10000
+        }
+    );
+}
+
+for (let i = 0; i < 4; i++) {
+    createFishSchool();
+}
+
+
+/* =====================================================
+   PERIODIC LIGHT RAYS
+===================================================== */
+
+function createRay() {
+
+    const ray =
+        document.createElement("div");
+
+    ray.style.position = "absolute";
+    ray.style.top = "-10%";
+    ray.style.left =
+        Math.random() * 100 + "%";
+
+    ray.style.width =
+        (40 + Math.random() * 90) + "px";
+
+    ray.style.height = "130%";
+
+    ray.style.background =
+        "linear-gradient(" +
+        "90deg," +
+        "transparent," +
+        "rgba(190,250,255,.08)," +
+        "transparent)";
+
+    ray.style.transform =
+        `rotate(${Math.random() * 20 - 10}deg)`;
+
+    ray.style.filter =
+        "blur(8px)";
+
+    ray.style.pointerEvents =
+        "none";
+
+    ray.style.zIndex = "2";
+
+    ocean.appendChild(ray);
+
+    ray.animate(
+        [
+            {
+                opacity: 0.1,
+                transform:
+                    "translateX(-40px) rotate(-8deg)"
+            },
+            {
+                opacity: 0.45,
+                transform:
+                    "translateX(40px) rotate(8deg)"
+            },
+            {
+                opacity: 0.1,
+                transform:
+                    "translateX(-40px) rotate(-8deg)"
+            }
+        ],
+        {
+            duration: 6000 + Math.random() * 5000,
+            iterations: Infinity
+        }
+    );
+}
+
+for (let i = 0; i < 7; i++) {
+    createRay();
+}
+
+
+/* =====================================================
+   RESPONSIVE RESIZE
+===================================================== */
+
+window.addEventListener("resize", () => {
+
+    document.body.style.height =
+        window.innerHeight + "px";
+
+});
+
+</script>
+
+</body>
+</html>
